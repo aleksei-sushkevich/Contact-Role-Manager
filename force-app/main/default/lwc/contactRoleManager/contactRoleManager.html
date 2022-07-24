@@ -1,3 +1,80 @@
 <template>
-    
+    <div class="slds-vertical-tabs">
+        <ul class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
+            <template for:each={tabs} for:item="tab">
+                <li class={tab.liClass} title={tab.label} role="presentation" key={tab.key} onclick={onSelectTabClick}>
+                    <h2 class="slds-vertical-tabs__link" role="tab" tabindex={tab.index} aria-selected={tab.selected}
+                        aria-controls={tab.aria} id={tab.ariaId}>
+                        <span class="slds-vertical-tabs__left-icon">
+                            <span class="slds-icon_container slds-icon-standard-account"
+                                title={tab.title}>
+                                <lightning-icon icon-name={tab.icon} alternative-text={tab.label} title={tab.label} size="small"></lightning-icon>  
+                            </span>
+                        </span>
+                        <span class="slds-truncate" title={tab.label}>{tab.label}</span>
+                        <span class="slds-vertical-tabs__right-icon"></span>
+                    </h2>
+                </li>
+            </template>
+        </ul>
+        <div class="slds-vertical-tabs__content slds-show" id="slds-vertical-tabs-0" role="tabpanel" aria-labelledby="slds-vertical-tabs-0__nav">
+            <div class="accordion-wrapper">
+                <div class="scroll-wrapper">
+                    <lightning-accordion active-section-name={activeSection}
+                                        allow-multiple-sections-open
+                                        >
+                        <template for:each={accData} for:item="item" for:index="index">
+                            <lightning-accordion-section key={item.id} name={item.Label} label={item.Label}>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                                    <h1>haha</h1>
+                            </lightning-accordion-section>  
+                        </template>
+                    </lightning-accordion>
+                </div>
+            </div>
+            <div class="pagination-menu">
+                <lightning-layout horizontal-align="space">
+                    <lightning-layout-item flexibility="auto">
+                        <lightning-button 
+                            label="Previous"
+                            disabled={previousDisabled} 
+                            icon-name="utility:chevronleft" 
+                            onclick={previousHandler}>
+                        </lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto">
+                        <div class="pagination-font"><p>Page {page} of {totalPage}</p></div>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto">
+                        <lightning-button 
+                            label="Next" 
+                            icon-name="utility:chevronright" 
+                            icon-position="right"
+                            disabled={nextDisabled}
+                            onclick={nextHandler}>
+                        </lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+    </div>
 </template>
