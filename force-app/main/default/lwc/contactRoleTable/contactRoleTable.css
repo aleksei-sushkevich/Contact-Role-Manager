@@ -1,0 +1,52 @@
+p{
+    padding-top: 3.5%;
+    margin-left: 5%;
+}
+.table-head{
+    display: flex;
+    height: 32px;
+    background-color: rgb(240, 240, 240);
+    font-size: 13px;
+    font-weight: bold;
+}
+.table-head > div {
+    border-right: 0.2px solid;
+    border-color: rgb(205, 205, 205);
+}
+.table-head>div:first-child {
+    border-left: 0.2px solid;
+    border-color: rgb(205, 205, 205);
+}
+.col-name{
+    width: 18%;
+}
+.col-title{
+    width: 18%;
+}
+.col-email{
+    width: 18%;
+}
+.col-phone{
+    width: 18%;
+}
+.col-role{
+    width: 18%;
+}
+.col-primary{
+    width: 10%;
+}
+.add-button{
+    cursor: pointer;
+    width: 100%;
+    border-top: none;
+    border-right: 1px solid;
+    border-bottom: none;
+    border-left: 1px solid;
+    border-color: rgb(205, 205, 205);
+    outline: none;
+    transition: 0.4s;
+    background: white;
+}
+.add-button:hover{
+    background-color: rgb(250, 250, 250);
+}

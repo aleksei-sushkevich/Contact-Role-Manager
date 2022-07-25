@@ -20,35 +20,15 @@
         <div class="slds-vertical-tabs__content slds-show" id="slds-vertical-tabs-0" role="tabpanel" aria-labelledby="slds-vertical-tabs-0__nav">
             <div class="accordion-wrapper">
                 <div class="scroll-wrapper">
-                    <lightning-accordion active-section-name={activeSection}
-                                        allow-multiple-sections-open
-                                        >
-                        <template for:each={accData} for:item="item" for:index="index">
-                            <lightning-accordion-section key={item.id} name={item.Label} label={item.Label}>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                                    <h1>haha</h1>
-                            </lightning-accordion-section>  
+                    <template for:each={accData} for:item="acc">
+                        <div class={acc.Class} key={acc.Id} data-id={acc.Id} onclick={handleToggleSection}>
+                            <p>{acc.Label}</p>
+                            <lightning-icon icon-name={acc.Icon} alternative-text={acc.Label} title={acc.Label} size="x-small"></lightning-icon>
+                        </div>
+                        <template if:true={acc.isVisible}>
+                            <c-contact-role-table key={acc.Id} table-data={tableData}></c-contact-role-table>
                         </template>
-                    </lightning-accordion>
+                    </template>
                 </div>
             </div>
             <div class="pagination-menu">

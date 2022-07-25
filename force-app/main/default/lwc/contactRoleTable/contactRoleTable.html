@@ -1,0 +1,81 @@
+<template>
+    <template if:true={tableData}>
+        <div class="table-wrapper">
+            <div class="table-head">
+                <div class="th-contact-name col-name">
+                    <p>Name</p>
+                </div>
+                <div class="th-contact-title col-title">
+                    <p>Title</p>
+                </div>
+                <div class="th-contact-email col-email">
+                    <p>Email</p>
+                </div>
+                <div class="th-contact-phone col-phone">
+                    <p>Phone</p>
+                </div>
+                <div class="th-contact-role col-role">
+                    <p>Role</p>
+                </div>
+                <div class="th-contact-primary col-primary">
+                    <p>Primary</p>
+                </div>
+            </div>
+            <template for:each={tableData} for:item="td">
+                <div class="table-body" key={td.id}>
+                    <div class="td-contact-name col-name">
+                        <p>{td.name}</p>
+                    </div>
+                    <div class="td-contact-title col-title">
+                        <p>{td.title}</p>
+                    </div>
+                    <div class="td-contact-email col-email">
+                        <p>{td.email}</p>
+                    </div>
+                    <div class="td-contact-phone col-phone">
+                        <p>{td.phone}</p>
+                    </div>
+                    <div class="td-contact-role col-role">
+                        <p>{td.role}</p>
+                    </div>
+                    <div class="td-contact-primary col-primary">
+                        <p>{td.primary}</p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+    <button class="add-button" onclick={handleNew}>
+        <lightning-icon icon-name="utility:new" size="small"></lightning-icon>
+    </button>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box header LWC</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p><b>Modals/Popup Box are used to display content in a layer above the app.
+                    </b></p>
+                    <p><b>This paradigm is used in cases such as the creation or editing of a record, as well as various types of messaging and wizards.
+                    </b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
