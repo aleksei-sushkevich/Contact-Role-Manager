@@ -1,6 +1,6 @@
 <template>
-    <template if:true={tableData}>
-        <div class="table-wrapper">
+    <div class="table-wrapper">
+        <div class="table">
             <div class="table-head">
                 <div class="th-contact-name col-name">
                     <p>Name</p>
@@ -14,44 +14,138 @@
                 <div class="th-contact-phone col-phone">
                     <p>Phone</p>
                 </div>
-                <div class="th-contact-role col-role">
-                    <p>Role</p>
-                </div>
-                <div class="th-contact-primary col-primary">
-                    <p>Primary</p>
+                <template if:true={notCaseTab}>
+                    <div class="th-contact-role col-role">
+                        <p>Role</p>
+                    </div>
+                    <div class="th-contact-primary col-primary">
+                        <p>Primary</p>
+                    </div>
+                    <div class="th-action col-action">
+                        <lightning-button-icon icon-name="utility:edit" style="margin-left: 4%;" alternative-text="Edit" size="x-small" title="Edit" onclick={onEdit}></lightning-button-icon>
+                    </div>
+                </template>
+                <template if:false={notCaseTab}>
+                    <div class="th-contact-role-case">
+                        <p>Role</p>
+                    </div>
+                    <div class="th-action-case">
+                        <lightning-button-icon icon-name="utility:edit" style="margin-left: 4%;" alternative-text="Edit" size="x-small" title="Edit" onclick={onEdit}></lightning-button-icon>
+                    </div>
+                </template>
+            </div>
+            <div class="table-body-wrapper">
+                <div class="table-scroll-wrapper">
+                    <template for:each={tableData} for:item="tb">
+                        <div class="table-body" key={tb.id}>
+                            <div class="table-row" id={tb.id} onmouseleave={onOut} onmouseover={onOver}>
+                                <div class="tb-contact-name col-name">
+                                    <template if:false={editMode}>
+                                        <a href={tb.namehref} target="_blank">{tb.namelabel}</a>
+                                    </template>
+                                    <template if:true={editMode}>
+                                        <p>{tb.namelabel}</p>
+                                    </template>
+                                </div>
+                                <div class="tb-contact-title col-title">
+                                    <p>{tb.title}</p>
+                                </div>
+                                <div class="tb-contact-email col-email">
+                                    <template if:false={editMode}>
+                                        <a href={tb.emailhref}>{tb.emaillabel}</a>
+                                    </template>
+                                    <template if:true={editMode}>
+                                        <p>{tb.emaillabel}</p>
+                                    </template>
+                                </div>
+                                <div class="tb-contact-phone col-phone">
+                                    <template if:false={editMode}>
+                                        <a href={tb.phonehref}>{tb.phonelabel}</a>
+                                    </template>
+                                    <template if:true={editMode}>
+                                        <p>{tb.phonelabel}</p>
+                                    </template>
+                                </div>
+                                <template if:true={editMode}>
+                                    <div class="tb-contact-role-picklist col-role" id={tb.id} onclick={showRoleOptions}>
+                                        <p>{tb.role}</p>
+                                        <lightning-icon class="slds-input__icon" style="margin-top: 2%;" icon-name="utility:down" size="xx-small"> </lightning-icon>
+                                        <template if:true={tb.showDropdownRole}>
+                                            <div class="slds-dropdown slds-dropdown_fluid dropdown-edit-role" role="listbox">
+                                                <div class="dropdown-wrapper">
+                                                    <div class="scroll-wrapper">
+                                                        <ul class="custom-listbox" role="presentation">
+                                                            <template for:each={editRoleOptions}  for:item="option">
+                                                                <li key={option.value} id={tb.id} role="presentation" onclick={changeRole} class="custom-listbox-item-edit-role">
+                                                                    <template if:true={option.icon}>
+                                                                        <lightning-icon icon-name="utility:check" size="xx-small" style="margin-left: 15px;"> </lightning-icon>
+                                                                        <div id={option.label} class="custom-option-has-icon-edit" role="option">
+                                                                            <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                        </div>
+                                                                    </template>
+                                                                    <template if:false={option.icon}>
+                                                                        <div id={option.label} class="custom-option-edit" role="option">
+                                                                            <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                        </div>
+                                                                    </template>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:true={notCaseTab}>
+                                    <template if:false={editMode}>
+                                        <div class="tb-contact-role col-role">
+                                            <p>{tb.role}</p>
+                                        </div>
+                                    </template>
+                                    <div class="tb-contact-primary col-primary">
+                                        <template if:true={editMode}>
+                                            <lightning-input type="checkbox" checked={tb.primary} value={tb.primary} id={tb.id} onchange={changePrimary}></lightning-input>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <lightning-input type="checkbox" checked={tb.primary} value={tb.primary} disabled></lightning-input>
+                                        </template>
+                                    </div>
+                                    <div class="tb-action col-action">
+                                        <lightning-button-icon icon-name="utility:delete" style="margin-left: 4%;" id={tb.id} alternative-text="Delete" size="x-small" title="Delete" onclick={deleteContactRole}></lightning-button-icon>
+                                    </div>
+                                </template>
+                                <template if:false={notCaseTab}>
+                                    <template if:false={editMode}>
+                                        <div class="tb-contact-role th-contact-role-case">
+                                            <p>{tb.role}</p>
+                                        </div>
+                                    </template>
+                                    <div class="tb-action th-action-case">
+                                        <lightning-button-icon icon-name="utility:delete" style="margin-left: 4%;" id={tb.id} alternative-text="Delete" size="x-small" title="Delete" onclick={deleteContactRole}></lightning-button-icon>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
-            <template for:each={tableData} for:item="td">
-                <div class="table-body" key={td.id}>
-                    <div class="td-contact-name col-name">
-                        <p>{td.name}</p>
-                    </div>
-                    <div class="td-contact-title col-title">
-                        <p>{td.title}</p>
-                    </div>
-                    <div class="td-contact-email col-email">
-                        <p>{td.email}</p>
-                    </div>
-                    <div class="td-contact-phone col-phone">
-                        <p>{td.phone}</p>
-                    </div>
-                    <div class="td-contact-role col-role">
-                        <p>{td.role}</p>
-                    </div>
-                    <div class="td-contact-primary col-primary">
-                        <p>{td.primary}</p>
-                    </div>
+            <template if:true={editMode}>
+                <div class="edit-wrapper">
+                    <button class="slds-button slds-button_neutral" onclick={onEdit} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={onSaveEdit} title="Ok">Ok</button>
+                </div>
+            </template>
+            <template if:false={editMode}>
+                <div class="edit-wrapper">
+                    <button class="slds-button slds-button_brand" onclick={handleNew} title="New">New</button>
                 </div>
             </template>
         </div>
-    </template>
-    <button class="add-button" onclick={handleNew}>
-        <lightning-icon icon-name="utility:new" size="small"></lightning-icon>
-    </button>
+    </div>
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
-                <!-- Modal/Popup Box LWC header here -->
                 <header class="slds-modal__header">
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
                         <lightning-icon icon-name="utility:close"
@@ -60,19 +154,65 @@
                             size="small" ></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal/PopUp Box header LWC</h2>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add New Contact Role</h2>
                 </header>
-                <!-- Modal/Popup Box LWC body starts here -->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <p><b>Modals/Popup Box are used to display content in a layer above the app.
-                    </b></p>
-                    <p><b>This paradigm is used in cases such as the creation or editing of a record, as well as various types of messaging and wizards.
-                    </b></p>
+                    <div class="add-contact-container">
+                        <div class="contact-combobox-wrapper">
+                            <div style="width: 150px;">
+                                <lightning-combobox label="From" options={fromOptions} value={accountValue} onchange={handleChangeSearch}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none" style="margin-left: 10px;"> 
+                                <label class="slds-form-element__label" for="batch">Contact Name</label>   
+                                <lightning-input 
+                                    id="contact"
+                                    variant="label-hidden"
+                                    name="contact-input"
+                                    class="input-box" 
+                                    placeholder={placeholder} 
+                                    onclick={showOptions}
+                                    onblur={blurEvent}
+                                    onkeyup={filterOptions} 
+                                    value={searchString} 
+                                    autocomplete="off">
+                                </lightning-input>
+                                <lightning-icon class="slds-input__icon icon-custom-style"  icon-name="utility:down"  size="xx-small"  alternative-text="search"> </lightning-icon>
+                                <template if:true={showDropdown}>
+                                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_fluid" role="listbox">
+                                        <div class="dropdown-wrapper">
+                                            <div class="scroll-wrapper">
+                                                <ul class="custom-listbox" role="presentation">
+                                                    <template for:each={contactOptions}  for:item="option">
+                                                        <template if:true={option.isVisible}>
+                                                            <li key={option.value} data-id={option.value} onmousedown={selectItem} role="presentation" class="custom-listbox-item">
+                                                                <div id={option.label} class="custom-option" role="option">
+                                                                    <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-m-top_xx-small">
+                            <lightning-combobox label="Role" placeholder="Select a Role" options={roleOptions} onchange={handleChangeRole}>
+                            </lightning-combobox>
+                        </div>
+                        <template if:true={notCaseTab}>
+                            <div class="slds-m-top_x-small">
+                                <lightning-input type="checkbox" label="Primary" checked={isPrimary} value={isPrimary} onchange={handleChangePrimary}></lightning-input>
+                            </div> 
+                        </template>
+                    </div>
                 </div>
-                <!-- Modal/Popup Box LWC footer starts here -->
-                <footer class="slds-modal__footer">
+                <footer class="slds-modal__footer custom-footer">
                     <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
-                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+                    <button class="slds-button slds-button_brand" onclick={onSave} title="Save" disabled={disabledSave}>Save</button>
                 </footer>
             </div>
         </section>

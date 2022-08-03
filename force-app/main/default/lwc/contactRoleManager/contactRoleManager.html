@@ -17,16 +17,68 @@
                 </li>
             </template>
         </ul>
-        <div class="slds-vertical-tabs__content slds-show" id="slds-vertical-tabs-0" role="tabpanel" aria-labelledby="slds-vertical-tabs-0__nav">
+        <div class="slds-vertical-tabs__content slds-show custom-content" id="slds-vertical-tabs-0" role="tabpanel" aria-labelledby="slds-vertical-tabs-0__nav">
+            <div class="utility-bar">
+                <div class="search-wrapper">    
+                    <lightning-input
+                        name="account-name-search"
+                        placeholder="..."
+                        label="Account Name:"
+                        type="search"
+                        onchange={searchByAccName}
+                    ></lightning-input>
+                </div>
+                <template if:true={notAccountTab}>
+                    <div class="search-wrapper">    
+                        <lightning-input
+                            name="account-name-search"
+                            placeholder="..."
+                            label={labelForInptut}
+                            type="search"
+                            onchange={searchByLabel}
+                        ></lightning-input>
+                    </div>
+                </template>
+                <div class="picklist-wrapper">
+                    <lightning-combobox
+                        label="Show:"
+                        options={showOptions}
+                        value={showValue}
+                        onchange={handleChangeShow}
+                        >
+                    </lightning-combobox>
+                </div>
+            </div>
             <div class="accordion-wrapper">
                 <div class="scroll-wrapper">
                     <template for:each={accData} for:item="acc">
-                        <div class={acc.Class} key={acc.Id} data-id={acc.Id} onclick={handleToggleSection}>
-                            <p>{acc.Label}</p>
+                        <div class={acc.Class} key={acc.Id} data-id={acc.Id} id={acc.accId} onclick={handleToggleSection}>
+                            <template if:true={acc.notAcc}>
+                                <p style="width: 40%;">{acc.accName}</p>
+                                <p style="width: 58%;">{acc.Label}</p>
+                            </template>
+                            <template if:false={acc.notAcc}>
+                                <p>{acc.accName}</p>
+                            </template>
                             <lightning-icon icon-name={acc.Icon} alternative-text={acc.Label} title={acc.Label} size="x-small"></lightning-icon>
                         </div>
                         <template if:true={acc.isVisible}>
-                            <c-contact-role-table key={acc.Id} table-data={tableData}></c-contact-role-table>
+                            <c-contact-role-table key={acc.Id} 
+                                                  table-data={tableData} 
+                                                  contacts={contacts} 
+                                                  role-options={roleOptions} 
+                                                  account-value={accountValue} 
+                                                  obj-id={recordId}
+                                                  not-opp-tab={notOppTab}
+                                                  not-case-tab={notCaseTab}
+                                                  onupdatedata={getContactRoles}
+                                                  from-options={fromOptions}>
+                            </c-contact-role-table>
+                        </template>
+                        <template if:true={acc.isSpin}>
+                            <div class="backgroundInverse" key={acc.Id}>
+                                <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                            </div>
                         </template>
                     </template>
                 </div>
