@@ -68,7 +68,6 @@ export default class ContactRoleManager extends LightningElement {
     tabName = ACC.label;
     notAccountTab = false;
     notCaseTab = true;
-    notOppTab = true;
     labelForInptut = '';
 
     //accordion
@@ -124,22 +123,18 @@ export default class ContactRoleManager extends LightningElement {
             this.notAccountTab = false;
             this.labelForInptut = '';
             this.notCaseTab = true;
-            this.notOppTab = true;
         }else if(this.tabName === OPP.label){
             this.notAccountTab = true;
             this.labelForInptut = 'Opportunity Name:';
             this.notCaseTab = true;
-            this.notOppTab = false;
         }else if(this.tabName === CASES.label){
             this.notAccountTab = true;
             this.labelForInptut = 'Case Number:';
             this.notCaseTab = false;
-            this.notOppTab = true;
         }else if(this.tabName === CONTR.label){
             this.notAccountTab = true;
             this.labelForInptut = 'Contract Number:';
             this.notCaseTab = true;
-            this.notOppTab = true;
         }
         this.tabs.forEach(element => {
             element.liClass = SLDS_NAV_ITEM;
@@ -166,8 +161,8 @@ export default class ContactRoleManager extends LightningElement {
                     Class : "accordion",
                     isSpin : false,
                     notAcc : el.NotAcc,
-                    accName : el.AccountName,
-                    accId : el.AccountId,
+                    accName : el.AccountName !== undefined ? el.AccountName : '',
+                    accId : el.AccountId !== undefined ? el.AccountId : '',
                     hasConRole : el.HasConRoles
                 }
             });

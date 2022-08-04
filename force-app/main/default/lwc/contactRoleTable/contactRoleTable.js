@@ -16,7 +16,6 @@ export default class ContactRoleTable extends LightningElement {
     @api tableData;
     @api objId;
     @api notCaseTab;
-    @api notOppTab;
     editMode = false;
     editRecords = [];
     
@@ -130,7 +129,7 @@ export default class ContactRoleTable extends LightningElement {
     }
 
     checkDesable(){
-        if(this.selectedContact === '' || this.selectedRole === ''){
+        if(this.selectedContact === ''){
             this.disabledSave = true;
         }else{
             this.disabledSave = false;
@@ -311,46 +310,27 @@ export default class ContactRoleTable extends LightningElement {
         const curId = event.currentTarget.id.substring(0, event.currentTarget.id.length - 4);
         const itemIndex = this.findIndexById(curId);
         const value = event.target.checked;
-        let data = [];
-        if(this.notOppTab){
-            data = this.tableData.map(el=>{
-                return{
-                    id : el.id,
-                    namelabel : el.namelabel,
-                    namehref : el.namehref,
-                    title : el.title,
-                    emailhref : el.emailhref,
-                    emaillabel : el.emaillabel,
-                    phonelabel : el.phonelabel,
-                    phonehref : el.phonehref,
-                    role : el.role,
-                    primary : false,
-                    showDropdownRole : false
-                }
-            });
-        }else{
-            data = this.tableData.map(el=>{
-                return{
-                    id : el.id,
-                    namelabel : el.namelabel,
-                    namehref : el.namehref,
-                    title : el.title,
-                    emailhref : el.emailhref,
-                    emaillabel : el.emaillabel,
-                    phonelabel : el.phonelabel,
-                    phonehref : el.phonehref,
-                    role : el.role,
-                    primary : el.primary,
-                    showDropdownRole : false
-                }
-            });
-        }
+        let data = this.tableData.map(el=>{
+            return{
+                id : el.id,
+                namelabel : el.namelabel,
+                namehref : el.namehref,
+                title : el.title,
+                emailhref : el.emailhref,
+                emaillabel : el.emaillabel,
+                phonelabel : el.phonelabel,
+                phonehref : el.phonehref,
+                role : el.role,
+                primary : false,
+                showDropdownRole : false
+            }
+        });
         data[itemIndex].primary = value;
         this.tableData = data;
         let exist = false;
         let index = 0;
         for(var i = 0; i < this.editRecords.length; i++){
-            if(this.editRecords[i].IsPrimary !== undefined && this.notOppTab){
+            if(this.editRecords[i].IsPrimary !== undefined){
                 this.editRecords[i].IsPrimary = false;
             }
             if(this.editRecords[i].Id === curId){

@@ -67,35 +67,68 @@
                                     </template>
                                 </div>
                                 <template if:true={editMode}>
-                                    <div class="tb-contact-role-picklist col-role" id={tb.id} onclick={showRoleOptions}>
-                                        <p>{tb.role}</p>
-                                        <lightning-icon class="slds-input__icon" style="margin-top: 2%;" icon-name="utility:down" size="xx-small"> </lightning-icon>
-                                        <template if:true={tb.showDropdownRole}>
-                                            <div class="slds-dropdown slds-dropdown_fluid dropdown-edit-role" role="listbox">
-                                                <div class="dropdown-wrapper">
-                                                    <div class="scroll-wrapper">
-                                                        <ul class="custom-listbox" role="presentation">
-                                                            <template for:each={editRoleOptions}  for:item="option">
-                                                                <li key={option.value} id={tb.id} role="presentation" onclick={changeRole} class="custom-listbox-item-edit-role">
-                                                                    <template if:true={option.icon}>
-                                                                        <lightning-icon icon-name="utility:check" size="xx-small" style="margin-left: 15px;"> </lightning-icon>
-                                                                        <div id={option.label} class="custom-option-has-icon-edit" role="option">
-                                                                            <span class="custom-option-label" title={option.label}>{option.label}</span>
-                                                                        </div>
-                                                                    </template>
-                                                                    <template if:false={option.icon}>
-                                                                        <div id={option.label} class="custom-option-edit" role="option">
-                                                                            <span class="custom-option-label" title={option.label}>{option.label}</span>
-                                                                        </div>
-                                                                    </template>
-                                                                </li>
-                                                            </template>
-                                                        </ul>
+                                    <template if:true={notCaseTab}>
+                                        <div class="tb-contact-role-picklist col-role" id={tb.id} onclick={showRoleOptions}>
+                                            <p>{tb.role}</p>
+                                            <lightning-icon class="slds-input__icon" style="margin-top: 2%;" icon-name="utility:down" size="xx-small"> </lightning-icon>
+                                            <template if:true={tb.showDropdownRole}>
+                                                <div class="slds-dropdown slds-dropdown_fluid dropdown-edit-role" role="listbox">
+                                                    <div class="dropdown-wrapper">
+                                                        <div class="scroll-wrapper">
+                                                            <ul class="custom-listbox" role="presentation">
+                                                                <template for:each={editRoleOptions}  for:item="option">
+                                                                    <li key={option.value} id={tb.id} role="presentation" onclick={changeRole} class="custom-listbox-item-edit-role">
+                                                                        <template if:true={option.icon}>
+                                                                            <lightning-icon icon-name="utility:check" size="xx-small" style="margin-left: 15px;"> </lightning-icon>
+                                                                            <div id={option.label} class="custom-option-has-icon-edit" role="option">
+                                                                                <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                            </div>
+                                                                        </template>
+                                                                        <template if:false={option.icon}>
+                                                                            <div id={option.label} class="custom-option-edit" role="option">
+                                                                                <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                            </div>
+                                                                        </template>
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </template>
-                                    </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCaseTab}>
+                                        <div class="tb-contact-role-picklist th-contact-role-case" id={tb.id} onclick={showRoleOptions}>
+                                            <p>{tb.role}</p>
+                                            <lightning-icon class="slds-input__icon" style="margin-top: 2%;" icon-name="utility:down" size="xx-small"> </lightning-icon>
+                                            <template if:true={tb.showDropdownRole}>
+                                                <div class="slds-dropdown slds-dropdown_fluid dropdown-edit-role" role="listbox">
+                                                    <div class="dropdown-wrapper">
+                                                        <div class="scroll-wrapper">
+                                                            <ul class="custom-listbox" role="presentation">
+                                                                <template for:each={editRoleOptions}  for:item="option">
+                                                                    <li key={option.value} id={tb.id} role="presentation" onclick={changeRole} class="custom-listbox-item-edit-role">
+                                                                        <template if:true={option.icon}>
+                                                                            <lightning-icon icon-name="utility:check" size="xx-small" style="margin-left: 15px;"> </lightning-icon>
+                                                                            <div id={option.label} class="custom-option-has-icon-edit" role="option">
+                                                                                <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                            </div>
+                                                                        </template>
+                                                                        <template if:false={option.icon}>
+                                                                            <div id={option.label} class="custom-option-edit" role="option">
+                                                                                <span class="custom-option-label" title={option.label}>{option.label}</span>
+                                                                            </div>
+                                                                        </template>
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
                                 </template>
                                 <template if:true={notCaseTab}>
                                     <template if:false={editMode}>

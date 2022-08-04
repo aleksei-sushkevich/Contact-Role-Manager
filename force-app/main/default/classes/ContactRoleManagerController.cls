@@ -21,7 +21,7 @@ public with sharing class ContactRoleManagerController {
         List<AccordionDataWrapper> lToReturn = new List<AccordionDataWrapper>();
         switch on tabName {
             when 'Accounts' {
-                Map<Id, Account> mAccounts = new Map<Id, Account>([SELECT Name, Id FROM Account]);
+                Map<Id, Account> mAccounts = new Map<Id, Account>([SELECT Name, Id FROM Account ORDER BY Name]);
                 List<AccountContactRole> lConRoles = [SELECT Id, AccountId FROM AccountContactRole WHERE AccountId IN :mAccounts.keySet()];
                 Map<Id, Boolean> mAccHasConRol = new Map<Id, Boolean>();
                 for(AccountContactRole conRole : lConRoles){
@@ -39,7 +39,7 @@ public with sharing class ContactRoleManagerController {
                 }
             }
             when 'Opportunities' {
-                Map<Id, Opportunity> mOpportunities = new Map<Id, Opportunity>([SELECT Name, AccountId, Account.Name, Id FROM Opportunity]);
+                Map<Id, Opportunity> mOpportunities = new Map<Id, Opportunity>([SELECT Name, AccountId, Account.Name, Id FROM Opportunity ORDER BY Account.Name]);
                 List<OpportunityContactRole> lConRoles = [SELECT Id, OpportunityId FROM OpportunityContactRole WHERE OpportunityId IN :mOpportunities.keySet()];
                 Map<Id, Boolean> mOppHasConRol = new Map<Id, Boolean>();
                 for(OpportunityContactRole conRole : lConRoles){
@@ -58,7 +58,7 @@ public with sharing class ContactRoleManagerController {
                 }
             }
             when 'Cases' {
-                Map<Id, Case> mCases = new Map<Id, Case>([SELECT CaseNumber, AccountId, Account.Name, Id FROM Case]);
+                Map<Id, Case> mCases = new Map<Id, Case>([SELECT CaseNumber, AccountId, Account.Name, Id FROM Case ORDER BY Account.Name]);
                 List<CaseContactRole> lConRoles = [SELECT Id, CasesId FROM CaseContactRole WHERE CasesId IN :mCases.keySet()];
                 Map<Id, Boolean> mCaseHasConRol = new Map<Id, Boolean>();
                 for(CaseContactRole conRole : lConRoles){
@@ -77,7 +77,7 @@ public with sharing class ContactRoleManagerController {
                 }
             }
             when 'Contracts' {
-                Map<Id, Contract> mContracts = new Map<Id, Contract>([SELECT ContractNumber, AccountId, Account.Name, Id FROM Contract]);
+                Map<Id, Contract> mContracts = new Map<Id, Contract>([SELECT ContractNumber, AccountId, Account.Name, Id FROM Contract ORDER BY Account.Name]);
                 List<ContractContactRole> lConRoles = [SELECT Id, ContractId FROM ContractContactRole WHERE ContractId IN :mContracts.keySet()];
                 Map<Id, Boolean> mContractHasConRol = new Map<Id, Boolean>();
                 for(ContractContactRole conRole : lConRoles){
@@ -135,9 +135,6 @@ public with sharing class ContactRoleManagerController {
             }
             when 'Contract'{
                 lToReturn = getConRolesFromContract(objId);
-            }
-            when else{
-                lToReturn = null;
             }
         }
         return lToReturn;
@@ -279,25 +276,22 @@ public with sharing class ContactRoleManagerController {
             when 'Account'{
                 dataToReturn.Contacts = [SELECT Id, Name FROM Contact WHERE AccountId =:objId ORDER BY Name];
                 dataToReturn.Roles = getAccountContactRoleValues();
-                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1].Name;
+                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1]?.Name;
             }
             when 'Opportunity'{
                 dataToReturn.Contacts = [SELECT Id, Name FROM Contact WHERE AccountId =:accId ORDER BY Name];
                 dataToReturn.Roles = getOpportunityContactRoleValues();
-                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1].Name;
+                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1]?.Name;
             }
             when 'Case'{
                 dataToReturn.Contacts = [SELECT Id, Name FROM Contact WHERE AccountId =:accId ORDER BY Name];
                 dataToReturn.Roles = getCaseContactRoleValues();
-                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1].Name;
+                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1]?.Name;
             }
             when 'Contract'{
                 dataToReturn.Contacts = [SELECT Id, Name FROM Contact WHERE AccountId =:accId ORDER BY Name];
                 dataToReturn.Roles = getContractContactRoleValues();
-                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1].Name;
-            }
-            when else{
-                dataToReturn = null;
+                dataToReturn.AccountName = [SELECT Name FROM Account WHERE Id =:accId LIMIT 1]?.Name;
             }
         }
         return dataToReturn;
